@@ -22,49 +22,22 @@ module QueryOptions
   VALID_FORMAT = [:csv, :tsv, :xml].freeze
 
   VALID_OPTIONS = {
-    base: VALID_SYMBOLS,
-    symbols: VALID_SYMBOLS,
-    places: nil,
-    amount: nil,
-    format: VALID_FORMAT
+    base: { validate_with: VALID_SYMBOLS, action: :subset },
+    symbols: { validate_with: VALID_SYMBOLS, action: :subset },
+    places: { validate_with: :PositiveInteger, action: :type },
+    amount: { validate_with: :Numeric, action: :type },
+    format: { validate_with: VALID_FORMAT, action: :subset }
   }.freeze
 
 
   def query_options(options)
-    validate_options(options)
-    query_options = {}
+    validate(options)
 
-    VALID_OPTIONS.each_key do |valid_option|
-      query_options[valid_option] = if valid_option == :symbols
-        to_upcase_csv(options[valid_option] || send("default_#{valid_option}"))
-      else
-        options[valid_option] || send("default_#{valid_option}")
-      end
-    end
+    VALID_OPTIONS.keys.each_with_object({}) do |valid_option, query_options|
+      option_value = options[valid_option] || send("default_#{valid_option}")
+      option_value = to_upcase_csv(option_value) if valid_option == :symbols
 
-    query_options
-  end
-
-  def validate_options(options)
-    return if options.empty?
-
-    option_keys = options.keys
-    invalid_keys = option_keys - VALID_OPTIONS.keys
-
-    if invalid_keys.empty?
-      options.each do |option, value|
-        valid_values = VALID_OPTIONS[option]
-        next unless valid_values
-
-        value = [value] unless value.is_a?(Array)
-        invalid_values = value.map(&:to_sym) - valid_values
-
-        unless invalid_values.empty?
-          raise "Invalid #{option} option values detected: #{invalid_values.join(', ')}"
-        end
-      end
-    else
-      raise "Invalid options detected: #{invalid_keys.join(', ')}"
+      query_options[valid_option] = option_value
     end
   end
 
@@ -73,5 +46,48 @@ module QueryOptions
       return '' unless array
 
       array.map(&:upcase).join(',')
+    end
+
+    def isPositiveInteger?(v)
+      v.is_a?(Integer) && v > 0
+    end
+
+    def non_subset_values(array, original_array)
+      array.map(&:to_sym) - original_array
+    end
+
+    def validate_subset(array, original_array)
+      invalid_values = non_subset_values(array, original_array)
+      raise "Invalid input detected: #{invalid_values.join(', ')}" if invalid_values.any?
+    end
+
+    def validate(options)
+      return if options.empty?
+
+      validate_options(options)
+
+      options.each do |option, value|
+        validate_option_values(option, value)
+      end
+    end
+
+    def validate_options(options)
+      option_keys = options.keys
+      validate_subset(option_keys, VALID_OPTIONS.keys)
+    end
+
+    def validate_option_values(option, value)
+      validate_with = VALID_OPTIONS[option][:validate_with]
+      validate_action = VALID_OPTIONS[option][:action]
+
+      if validate_action == :subset
+        validate_subset(Array(value), validate_with)
+      elsif validate_action == :type
+        if validate_with == :PositiveInteger
+          raise "#{option} must be a positive whole number" unless isPositiveInteger?(value)
+        elsif validate_with == :Numeric
+          raise "#{option} must be a number" unless value.is_a?(Numeric)
+        end
+      end
     end
 end

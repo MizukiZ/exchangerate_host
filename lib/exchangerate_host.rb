@@ -1,13 +1,9 @@
 require 'exchangerate_host/configurations'
-require 'exchangerate_host/query_options'
+require 'exchangerate_host/endpoints/latest_rates'
+require 'exchangerate_host/endpoints/supported_symbols'
 require 'exchangerate_host/version'
-require 'httparty'
 
 module ExchangerateHost
-  extend QueryOptions
-  include HTTParty
-
-  base_uri 'https://api.exchangerate.host'
   class << self
     attr_accessor :configurations
 
@@ -24,16 +20,11 @@ module ExchangerateHost
     end
 
     def latest_rates(options = {})
-      res = get(
-        '/latest',
-        { query: query_options(options) }
-      )
-      JSON.parse(res.body)['rates']
+      Endpoints::LatestRates.request(options)
     end
 
-    def currencies
-      # return supoprted currency. format [{description: 'Japanese yen', code, 'JPY'}]
-      @currencies ||= JSON.parse(get('/symbols').body)['symbols'].values
+    def supported_symbols(options = {})
+      Endpoints::SupportedSymbols.request(options)
     end
   end
 end

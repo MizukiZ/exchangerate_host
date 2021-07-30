@@ -1,5 +1,4 @@
 module QueryOptions
-
   attr_accessor :default_base, :default_symbols, :default_places, :default_amount, :default_format
 
   VALID_SYMBOLS = [
@@ -35,10 +34,11 @@ module QueryOptions
 
     VALID_OPTIONS.keys.each_with_object({}) do |valid_option, query_options|
       option_value = options[valid_option] || send("default_#{valid_option}")
+
       option_value = to_upcase_csv(option_value) if valid_option == :symbols
 
       query_options[valid_option] = option_value
-    end
+    end.compact
   end
 
   private
@@ -48,7 +48,15 @@ module QueryOptions
       array.map(&:upcase).join(',')
     end
 
-    def isPositiveInteger?(v)
+    def validate_with_type(option, validate_with, v)
+      if validate_with == :PositiveInteger
+        raise "#{option} must be a positive whole number" unless is_positive_integer?(v)
+      elsif validate_with == :Numeric
+        raise "#{option} must be a number" unless v.is_a?(Numeric)
+      end
+    end
+
+    def is_positive_integer?(v)
       v.is_a?(Integer) && v > 0
     end
 
@@ -76,18 +84,14 @@ module QueryOptions
       validate_subset(option_keys, VALID_OPTIONS.keys)
     end
 
-    def validate_option_values(option, value)
+    def validate_option_values(option, v)
       validate_with = VALID_OPTIONS[option][:validate_with]
       validate_action = VALID_OPTIONS[option][:action]
 
       if validate_action == :subset
-        validate_subset(Array(value), validate_with)
+        validate_subset(Array(v).map(&:upcase), validate_with)
       elsif validate_action == :type
-        if validate_with == :PositiveInteger
-          raise "#{option} must be a positive whole number" unless isPositiveInteger?(value)
-        elsif validate_with == :Numeric
-          raise "#{option} must be a number" unless value.is_a?(Numeric)
-        end
+        validate_with_type(option, validate_with, v)
       end
     end
 end

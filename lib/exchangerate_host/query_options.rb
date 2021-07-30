@@ -1,6 +1,4 @@
 module QueryOptions
-  attr_accessor :default_base, :default_symbols, :default_places, :default_amount, :default_format
-
   VALID_SYMBOLS = [
     :AED, :AFN, :ALL, :AMD, :ANG, :AOA, :ARS, :AUD, :AWG, :AZN, :BAM, :BBD,
     :BDT, :BGN, :BHD, :BIF, :BMD, :BND, :BOB, :BRL, :BSD, :BTC, :BTN, :BWP,
@@ -33,7 +31,7 @@ module QueryOptions
     validate(options)
 
     VALID_OPTIONS.keys.each_with_object({}) do |valid_option, query_options|
-      option_value = options[valid_option] || send("default_#{valid_option}")
+      option_value = options[valid_option] || configurations.public_send(valid_option)
 
       option_value = to_upcase_csv(option_value) if valid_option == :symbols
 

@@ -1,8 +1,12 @@
 RSpec.describe QueryOptions do
   describe '#query_options' do
-    ExchangerateHost.default_base = 'JPY'
-    ExchangerateHost.default_symbols = ['AUD', 'USD']
-    ExchangerateHost.default_places = 2
+    before(:all) do
+      ExchangerateHost.reset_configurations
+      ExchangerateHost.configure do |config|
+        config.base = 'JPY'
+        config.symbols = ['AUD', 'USD']
+      end
+    end
 
     it 'returns default values for not given options' do
       expect(ExchangerateHost.query_options({})).to eq({ base: 'JPY', symbols: 'AUD,USD', places: 2 })
@@ -47,14 +51,14 @@ RSpec.describe QueryOptions do
     end
 
     context 'when invalid format option value is passed' do
-      invalid_format_value = { base: 'abc' }
+      invalid_format_value = { format: 'abc' }
       it 'raises runtime error' do
         expect { ExchangerateHost.query_options(invalid_format_value) }.to raise_error(RuntimeError)
       end
     end
 
     context 'when invalid amount option value is passed' do
-      invalid_amount_value = { base: 'abc' }
+      invalid_amount_value = { amount: 'abc' }
       it 'raises runtime error' do
         expect { ExchangerateHost.query_options(invalid_amount_value) }.to raise_error(RuntimeError)
       end

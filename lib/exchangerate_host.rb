@@ -1,6 +1,7 @@
 require 'exchangerate_host/configurations'
 require 'exchangerate_host/endpoints/latest_rates'
 require 'exchangerate_host/endpoints/supported_symbols'
+require 'exchangerate_host/endpoints/convert_currency'
 require 'exchangerate_host/version'
 
 module ExchangerateHost
@@ -21,6 +22,10 @@ module ExchangerateHost
 
     def latest_rates(options = {})
       Endpoints::LatestRates.request(options)
+    end
+
+    def convert_currency(options = {})
+      Endpoints::ConvertCurrency.request(options)
     end
 
     def supported_symbols(options = {})

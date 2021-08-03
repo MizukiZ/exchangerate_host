@@ -1,8 +1,11 @@
 require 'httparty'
+require 'date'
 module Endpoints
   class Base
     include HTTParty
     base_uri 'https://api.exchangerate.host'
+
+    ACCEPTABLE_DATE_FORMAT = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.freeze
 
     VALID_SYMBOLS = [
       :AED, :AFN, :ALL, :AMD, :ANG, :AOA, :ARS, :AUD, :AWG, :AZN, :BAM, :BBD,
@@ -71,9 +74,12 @@ module Endpoints
         raise "Invalid input detected: #{invalid_values.join(', ')}" if invalid_values.any?
       end
 
-      def self.validate(options)
-        return if options.empty?
+      def self.validate_date(date)
+        raise 'Invalid date format. Please use YYYY-MM-DD' unless date =~ ACCEPTABLE_DATE_FORMAT
+        Date.parse(date) # this is only for validation purpose
+      end
 
+      def self.validate(options)
         validate_options(options)
 
         options.each do |option, value|
@@ -83,6 +89,10 @@ module Endpoints
 
       def self.validate_options(options)
         option_keys = options.keys
+
+        validate_required_options(option_keys) if required_options.any?
+
+        return if option_keys.empty?
         validate_subset(option_keys, valid_options_with_validation_methods.keys)
       end
 
@@ -94,7 +104,18 @@ module Endpoints
           validate_subset(Array(v).map(&:upcase), validate_with)
         elsif validate_action == :type
           validate_with_type(option, validate_with, v)
+        elsif validate_action == :date
+          validate_date(v)
         end
+      end
+
+      def self.required_options
+        valid_options_with_validation_methods.map { |k, v| k if v[:required] }.compact
+      end
+
+      def self.validate_required_options(option_keys)
+        missing_required_options = required_options - option_keys
+        raise "Missing required options: #{missing_required_options.join(', ')}" if missing_required_options.any?
       end
   end
 end

@@ -1,5 +1,5 @@
 class Configurations
-  attr_accessor :base, :symbols, :places, :amount, :format
+  attr_accessor :base, :symbols, :places, :amount, :format, :from, :to, :date
 
   def initialize
     @places = 2

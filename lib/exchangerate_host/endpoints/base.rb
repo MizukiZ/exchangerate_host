@@ -5,7 +5,7 @@ module Endpoints
     include HTTParty
     base_uri 'https://api.exchangerate.host'
 
-    ACCEPTABLE_DATE_FORMAT = /^\d{4}\-(0?[1-9]|1[012])\-(0?[1-9]|[12][0-9]|3[01])$/.freeze
+    ACCEPTABLE_DATE_FORMAT = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/.freeze
 
     VALID_SYMBOLS = [
       :AED, :AFN, :ALL, :AMD, :ANG, :AOA, :ARS, :AUD, :AWG, :AZN, :BAM, :BBD,

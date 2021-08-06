@@ -1,15 +1,18 @@
 require 'exchangerate_host/endpoints/base'
 
 module Endpoints
-  class HistoricalRates < Base
+  class Fluctuation < Base
     def self.optional_options
       [:base, :symbols, :places, :amount, :format]
     end
 
-    def self.request(date, options)
-      validate_date(date)
+    def self.required_options
+      [:start_date, :end_date]
+    end
+
+    def self.request(options)
       res = get(
-        "/#{date}",
+        '/fluctuation',
         { query: query_options(options) }
       )
       JSON.parse(res.body)['rates']

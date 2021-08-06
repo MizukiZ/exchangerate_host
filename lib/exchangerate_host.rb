@@ -4,6 +4,7 @@ require 'exchangerate_host/endpoints/supported_symbols'
 require 'exchangerate_host/endpoints/convert_currency'
 require 'exchangerate_host/endpoints/historical_rates'
 require 'exchangerate_host/endpoints/time_series'
+require 'exchangerate_host/endpoints/fluctuation'
 require 'exchangerate_host/version'
 
 module ExchangerateHost
@@ -36,6 +37,10 @@ module ExchangerateHost
 
     def time_series(options = {})
       Endpoints::TimeSeries.request(options)
+    end
+
+    def fluctuation(options = {})
+      Endpoints::Fluctuation.request(options)
     end
 
     def supported_symbols(options = {})

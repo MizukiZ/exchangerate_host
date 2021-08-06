@@ -26,8 +26,29 @@ module Endpoints
 
     VALID_FORMAT = [:CSV, :TSV, :XML].freeze
 
-    def self.valid_options_with_validation_methods
+    ALL_OPTIONS_WITH_VALIDATE_METHODS = {
+      from: { validate_with: VALID_SYMBOLS, action: :subset },
+      to: { validate_with: VALID_SYMBOLS, action: :subset },
+      date: { validate_with: ACCEPTABLE_DATE_FORMAT, action: :date },
+      start_date: { validate_with: ACCEPTABLE_DATE_FORMAT, action: :date },
+      end_date: { validate_with: ACCEPTABLE_DATE_FORMAT, action: :date },
+      base: { validate_with: VALID_SYMBOLS, action: :subset },
+      symbols: { validate_with: VALID_SYMBOLS, action: :subset },
+      places: { validate_with: :PositiveInteger, action: :type },
+      amount: { validate_with: :Numeric, action: :type },
+      format: { validate_with: VALID_FORMAT, action: :subset },
+    }
+
+    def self.available_options
+      required_options + optional_options
+    end
+
+    def self.optional_options
       raise NotImplementedError
+    end
+
+    def self.required_options
+      []
     end
 
     def self.request(options)
@@ -37,7 +58,7 @@ module Endpoints
     def self.query_options(options)
       validate(options)
 
-      valid_options_with_validation_methods.keys.each_with_object({}) do |valid_option, query_options|
+      available_options.each_with_object({}) do |valid_option, query_options|
         option_value = options[valid_option] || ExchangerateHost.configurations.public_send(valid_option)
 
         option_value = to_upcase_csv(option_value) if valid_option == :symbols
@@ -93,12 +114,12 @@ module Endpoints
         validate_required_options(option_keys) if required_options.any?
 
         return if option_keys.empty?
-        validate_subset(option_keys, valid_options_with_validation_methods.keys)
+        validate_subset(option_keys, available_options)
       end
 
       def self.validate_option_values(option, v)
-        validate_with = valid_options_with_validation_methods[option][:validate_with]
-        validate_action = valid_options_with_validation_methods[option][:action]
+        validate_with = ALL_OPTIONS_WITH_VALIDATE_METHODS[option][:validate_with]
+        validate_action = ALL_OPTIONS_WITH_VALIDATE_METHODS[option][:action]
 
         if validate_action == :subset
           validate_subset(Array(v).map(&:upcase), validate_with)
@@ -107,10 +128,6 @@ module Endpoints
         elsif validate_action == :date
           validate_date(v)
         end
-      end
-
-      def self.required_options
-        valid_options_with_validation_methods.map { |k, v| k if v[:required] }.compact
       end
 
       def self.validate_required_options(option_keys)

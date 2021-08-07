@@ -5,12 +5,8 @@ module Endpoints
       [:base, :symbols, :places, :amount, :format]
     end
 
-    def self.request(options)
-      res = get(
-        '/latest',
-        { query: query_options(options) }
-      )
-      JSON.parse(res.body)['rates']
+    def self.endpoint_path
+      'latest'
     end
   end
 end

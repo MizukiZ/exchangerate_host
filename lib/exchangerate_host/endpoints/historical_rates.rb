@@ -12,7 +12,7 @@ module Endpoints
         "/#{date}",
         { query: query_options(options) }
       )
-      JSON.parse(res.body)['rates']
+      response_parser(res.body)
     end
   end
 end

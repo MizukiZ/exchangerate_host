@@ -1,5 +1,5 @@
 RSpec.describe Endpoints::SupportedSymbols do
-  describe '#query_options' do
+  describe '.query_options' do
     context 'when invalid option is passed' do
       invalid_option = { base: 'AUD' }
       it 'raises runtime error' do

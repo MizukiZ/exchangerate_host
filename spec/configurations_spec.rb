@@ -1,5 +1,5 @@
 RSpec.describe Configurations do
-  describe '#print' do
+  describe '.print' do
     let!(:configurations) { Configurations.new }
     before do
       configurations.base = 'AUD'

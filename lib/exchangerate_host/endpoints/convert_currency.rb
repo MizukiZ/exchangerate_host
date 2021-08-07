@@ -10,12 +10,12 @@ module Endpoints
       [:from, :to]
     end
 
-    def self.request(options)
-      res = get(
-        '/convert',
-        { query: query_options(options) }
-      )
-      JSON.parse(res.body)['result']
+    def self.endpoint_path
+      'convert'
+    end
+
+    def self.response_parser(res_body)
+      JSON.parse(res_body)['result']
     end
   end
 end

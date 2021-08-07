@@ -10,12 +10,8 @@ module Endpoints
       [:start_date, :end_date]
     end
 
-    def self.request(options)
-      res = get(
-        '/fluctuation',
-        { query: query_options(options) }
-      )
-      JSON.parse(res.body)['rates']
+    def self.endpoint_path
+      'fluctuation'
     end
   end
 end

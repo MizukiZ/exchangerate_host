@@ -43,6 +43,10 @@ module Endpoints
       required_options + optional_options
     end
 
+    def self.endpoint_path
+      ''
+    end
+
     def self.optional_options
       raise NotImplementedError
     end
@@ -53,6 +57,18 @@ module Endpoints
 
     def self.request(options)
       raise NotImplementedError
+    end
+
+    def self.request(options)
+      res = get(
+        "/#{endpoint_path}",
+        { query: query_options(options) }
+      )
+      response_parser(res.body)
+    end
+
+    def self.response_parser(res_body)
+      JSON.parse(res_body)['rates']
     end
 
     def self.query_options(options)

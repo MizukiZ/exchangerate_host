@@ -1,5 +1,5 @@
 RSpec.describe Endpoints::HistoricalRates do
-  describe '#query_options' do
+  describe '.query_options' do
 
     context 'when invalid option is passed' do
       invalid_option = { from: 'AUD' }

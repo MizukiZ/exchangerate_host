@@ -8,11 +8,11 @@ module Endpoints
 
     def self.request(date, options)
       validate_date(date)
-      res = get(
+      get(
         "/#{date}",
         { query: query_options(options) }
       )
-      response_parser(res.body)
+      .body
     end
   end
 end

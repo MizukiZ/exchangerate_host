@@ -8,9 +8,5 @@ module Endpoints
     def self.endpoint_path
       'symbols'
     end
-
-    def self.response_parser(res_body)
-      JSON.parse(res_body)
-    end
   end
 end

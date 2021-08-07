@@ -1,5 +1,5 @@
 RSpec.describe Endpoints::ConvertCurrency do
-  describe '#query_options' do
+  describe '.query_options' do
 
     context 'when invalid option is passed' do
       invalid_option = { from: 'AUD', to: 'JPY', start_date: '2021-08-10' }

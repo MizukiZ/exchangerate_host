@@ -1,5 +1,5 @@
 RSpec.describe Endpoints::LatestRates do
-  describe '#query_options' do
+  describe '.query_options' do
     before(:all) do
       ExchangerateHost.reset_configurations
       ExchangerateHost.configure do |config|

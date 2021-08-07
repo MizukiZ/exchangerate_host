@@ -13,9 +13,5 @@ module Endpoints
     def self.endpoint_path
       'convert'
     end
-
-    def self.response_parser(res_body)
-      JSON.parse(res_body)['result']
-    end
   end
 end

@@ -1,5 +1,5 @@
 RSpec.describe Endpoints::TimeSeries do
-  describe '#query_options' do
+  describe '.query_options' do
 
     context 'when invalid option is passed' do
       invalid_option = { start_date: '2020-01-01', end_date: '2020-01-08', from: 'AUD' }

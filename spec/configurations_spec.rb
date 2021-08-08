@@ -1,6 +1,6 @@
-RSpec.describe Configurations do
+RSpec.describe ExchangerateHost::Configurations do
   describe '.print' do
-    let!(:configurations) { Configurations.new }
+    let!(:configurations) { ExchangerateHost::Configurations.new }
     before do
       configurations.base = 'AUD'
       configurations.format = 'csv'

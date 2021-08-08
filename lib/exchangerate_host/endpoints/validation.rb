@@ -59,7 +59,7 @@ module ExchangerateHost
 
       def validate_subset(array, original_array)
         invalid_values = non_subset_values(array, original_array)
-        raise "Invalid input detected: #{invalid_values.join(', ')}" if invalid_values.any?
+        raise "Invalid options/values detected: #{invalid_values.join(', ')}" if invalid_values.any?
       end
 
       def validate_date(date)

@@ -25,42 +25,42 @@ RSpec.describe ExchangerateHost::Endpoints::LatestRates do
     context 'when invalid option is passed' do
       invalid_option = { esab: 'AUD' }
       it 'raises runtime error' do
-        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_option) }.to raise_error(RuntimeError)
+        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_option) }.to raise_error(RuntimeError, /Invalid options\/values detected/)
       end
     end
 
     context 'when invalid base option value is passed' do
       invalid_base_value = { base: 'DUA' }
       it 'raises runtime error' do
-        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_base_value) }.to raise_error(RuntimeError)
+        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_base_value) }.to raise_error(RuntimeError, /Invalid options\/values detected/)
       end
     end
 
     context 'when invalid symbols option value is passed' do
       invalid_symbols_value = { symbols: 'DUA,JPY' }
       it 'raises runtime error' do
-        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_symbols_value) }.to raise_error(RuntimeError)
+        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_symbols_value) }.to raise_error(RuntimeError, /Invalid options\/values detected/)
       end
     end
 
     context 'when invalid places option value is passed' do
       invalid_places_value = { places: 'abc' }
       it 'raises runtime error' do
-        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_places_value) }.to raise_error(RuntimeError)
+        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_places_value) }.to raise_error(RuntimeError, /places must be a positive whole number/)
       end
     end
 
     context 'when invalid format option value is passed' do
       invalid_format_value = { format: 'abc' }
       it 'raises runtime error' do
-        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_format_value) }.to raise_error(RuntimeError)
+        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_format_value) }.to raise_error(RuntimeError, /Invalid options\/values detected/)
       end
     end
 
     context 'when invalid amount option value is passed' do
       invalid_amount_value = { amount: 'abc' }
       it 'raises runtime error' do
-        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_amount_value) }.to raise_error(RuntimeError)
+        expect { ExchangerateHost::Endpoints::LatestRates.query_options(invalid_amount_value) }.to raise_error(RuntimeError, /amount must be a number/)
       end
     end
   end

@@ -7,7 +7,7 @@ RSpec.describe ExchangerateHost::Configurations do
     end
 
     it 'prints all instace variables as hash of Array' do
-      expect(configurations.print).to eq([{ '@places': 2 }, { '@base': 'AUD' }, { '@format': 'csv'} ])
+      expect(configurations.print).to eq([{ '@places': 2 }, { '@base': 'AUD' }, { '@format': 'csv' } ])
     end
   end
 end

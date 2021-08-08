@@ -5,7 +5,7 @@ RSpec.describe ExchangerateHost do
 
   describe '.configurations' do
     it 'returns Configurations' do
-      expect(ExchangerateHost.configurations).to be_a(Configurations)
+      expect(ExchangerateHost.configurations).to be_a(ExchangerateHost::Configurations)
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe ExchangerateHost do
   describe '.latest_rates' do
     it 'returns rates scoped data' do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
-      allow(Endpoints::LatestRates).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::LatestRates).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.latest_rates).to eq({ 'data' => 'some data' })
     end
@@ -50,7 +50,7 @@ RSpec.describe ExchangerateHost do
   describe '.convert_currency' do
     it 'returns result scoped data' do
       res_body = { 'result' => { 'data' => 'some data' } }.to_json
-      allow(Endpoints::ConvertCurrency).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::ConvertCurrency).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.convert_currency).to eq({ 'data' => 'some data' })
     end
@@ -59,7 +59,7 @@ RSpec.describe ExchangerateHost do
   describe '.historical_rates' do
     it 'returns rates scoped data' do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
-      allow(Endpoints::HistoricalRates).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::HistoricalRates).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.historical_rates('2021-01-01')).to eq({ 'data' => 'some data' })
     end
@@ -68,7 +68,7 @@ RSpec.describe ExchangerateHost do
   describe '.latest_rates' do
     it 'returns rates scoped data' do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
-      allow(Endpoints::LatestRates).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::LatestRates).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.latest_rates).to eq({ 'data' => 'some data' })
     end
@@ -77,7 +77,7 @@ RSpec.describe ExchangerateHost do
   describe '.time_series' do
     it 'returns rates scoped data' do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
-      allow(Endpoints::TimeSeries).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::TimeSeries).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.time_series).to eq({ 'data' => 'some data' })
     end
@@ -86,7 +86,7 @@ RSpec.describe ExchangerateHost do
   describe '.fluctuation' do
     it 'returns rates scoped data' do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
-      allow(Endpoints::Fluctuation).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::Fluctuation).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.fluctuation).to eq({ 'data' => 'some data' })
     end
@@ -95,7 +95,7 @@ RSpec.describe ExchangerateHost do
   describe '.supported_symbols' do
     it 'returns symbols scoped data' do
       res_body = { 'symbols' => { 'rates' => { 'data' => 'some data' } } }.to_json
-      allow(Endpoints::SupportedSymbols).to receive(:request).and_return(res_body)
+      allow(ExchangerateHost::Endpoints::SupportedSymbols).to receive(:request).and_return(res_body)
 
       expect(ExchangerateHost.supported_symbols).to eq({ 'rates' => { 'data' => 'some data' } })
     end

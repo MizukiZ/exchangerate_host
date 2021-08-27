@@ -1,6 +1,9 @@
 # ExchangerateHost
 
-ExchangerateHost is a very simple gem to integrate your ruby application with [exchangerate.host](https://exchangerate.host).
+ExchangerateHost is a very simple gem to integrate your ruby application with [exchangerate.host](https://exchangerate.host) 🚀  
+[exchangerate.host](https://exchangerate.host) is a great service that provide us completely free curreny exhange rates APIs (you don't even need to make an account & api key!! Really easy to get started 🙂 ).  
+  
+Let's [support](https://exchangerate.host/#/donate) their mission if you're happy with the service and willing to donate 👼
 
 ## Installation
 Install with the following command:
@@ -17,7 +20,7 @@ And then execute:
 
     $ bundle install
     
-## Supported API endpoints
+## Supported services
 | Service | Supported |
 | ------------- |:-------------:|
 | Latest rates | ✔️ |
@@ -28,7 +31,7 @@ And then execute:
 | Supported symbols | ✔️ |
 | EU VAT Rates | WIP |
 
-You can find details about services in here https://exchangerate.host/#/#our-services
+You can find details about services in [here](https://exchangerate.host/#/#our-services)
 ## Parameters
 | Parameter | Description | Example | Note |
 | ------------- |:-------------:| :---: | :-----: |
@@ -48,14 +51,70 @@ You can find details about services in here https://exchangerate.host/#/#our-ser
 | Service | base | symbols | amount | places | format | from | to | date | start_date | end_date |
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | Latest rates | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | - | - |
-| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - |
-| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | - | - |
+| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - |
+| Historical rates | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | 🔴 | - | - |
 | Time-Series data | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | 🔴 | 🔴 |
 | Fluctuation data | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | 🔴 | 🔴 |
 | Supported symbols | - | - | - | - | 🟢 | - | - | - | - | - |
 
-## Setup default parameter options
+## Usage
+You can make call supporetd survices with following APIs
+| Service | method | arguments |
+| ------------- |:-------------:| :-------------:|
+| Latest rates | ExchangerateHost.latest_rates(options) | options: {} |
+| Convert currency | ExchangerateHost.convert_currency(options) | options: {} |
+| Historical rates | ExchangerateHost.historical_rates(date, options) | date: YYYY-MM-DD , options: {} |
+| Time-Series data | ExchangerateHost.time_series(options) | options: {} |
+| Fluctuation data | ExchangerateHost.fluctuation(options) | options: {} |
+| Supported symbols |ExchangerateHost.supported_symbols(options) | options: {} |
+   
+  
+  
+_exmaples_
+```ruby
+  # How much is 1000 yen in AUD and USD with the latest currency rates
+  ExchangerateHost.latest_rates({ base: :JPY, amount: 1000, symbols: [:AUD, :USD] }) #=> {"AUD"=>12.59, "USD"=>9.1}
+    
+  # How much is 150 AUD in JPY on 2015 December 21st
+  ExchangerateHost.convert_currency({ from: :AUD, to: :JPY, date: '2015-12-21', amount: 150 }) #=> 13038.47
+    
+  # What were the all supported currency rates for 1 AUD on 2020 December 21st
+  ExchangerateHost.historical_rates('2020-12-21', { base: :USD }) #=> { "AED"=>3.69, "AFN"=>77.4, "ALL"=>101.52... }
+    
+  # What were the JPY and USD rates based on 1 AUD between 2021 January 1st ~ 2021 Febrary 1st
+  ExchangerateHost.time_series({ base: :AUD, symbols: [:JPY, :USD], start_date: '2021-01-01', end_date: '2021-02-01' })
+  #=> {"2021-01-01"=>{"JPY"=>79.56, "USD"=>0.77}, "2021-01-02"=>{"JPY"=>79.29, "USD"=>0.77}, "2021-01-03"=>{"JPY"=>79.42, "USD"=>0.77},... }
+    
+  # How much JPY and USD rates based on 1 AUD fluctuated between 2020 January 1st ~ 2020 October 1st
+  ExchangerateHost.fluctuation({ base: :AUD, symbols: [:JPY, :USD], start_date: '2020-01-01', end_date: '2020-10-01' })
+  #=> {"USD"=>{"start_rate"=>0.7, "end_rate"=>0.72, "change"=>-0.02, "change_pct"=>-0.03}, "JPY"=>{... }
+    
+  # What are the suported currencies
+  ExchangerateHost.supported_symbols
+  #=> {"AED"=>{"description"=>"United Arab Emirates Dirham", "code"=>"AED"}, "AFN"=>{"description"=>"Afghan Afghani", "code"=>"AFN"}... }
+```
 
+## Setup default parameter options
+You can set default parameter options so that you don't need to pass the same options everytime.  
+```ruby
+  ExchangerateHost.configure do |conf|
+    conf.base = :JPY
+    conf.symbols = [:AUD, :USD]
+  end
+  # or
+  ExchangerateHost.configurations.base = :JPY
+    
+    
+  
+  # default options will be overwritten by the passed option value
+  ExchangerateHost.configurations.base = :JPY
+  
+  ExchangerateHost.latest_rates #=> the base option for the request is JPY
+  ExchangerateHost.latest_rates({ base: :AUD }) #=> the base option for the request is now AUD
+  
+  # reset configurations
+  ExchangerateHost.reset_configurations
+```
 
 
 

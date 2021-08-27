@@ -1,12 +1,13 @@
 # ExchangerateHost
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/exchangerate_host`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+ExchangerateHost is a very simple gem to integrate your ruby application with [exchangerate.host](https://exchangerate.host).
 
 ## Installation
+Install with the following command:
 
-Add this line to your application's Gemfile:
+    $ gem install exchangerate_host
+
+For rails appliactions, add this line to your application's Gemfile:
 
 ```ruby
 gem 'exchangerate_host'
@@ -15,20 +16,48 @@ gem 'exchangerate_host'
 And then execute:
 
     $ bundle install
+    
+## Supported API endpoints
+| Service | Supported |
+| ------------- |:-------------:|
+| Latest rates | ✔️ |
+| Convert currency | ✔️ |
+| Historical rates | ✔️ |
+| Time-Series data | ✔️ |
+| Fluctuation data | ✔️ |
+| Supported symbols | ✔️ |
+| EU VAT Rates | WIP |
 
-Or install it yourself as:
+You can find details about services in here https://exchangerate.host/#/#our-services
+## Parameters
+| Parameter | Description | Example | Note |
+| ------------- |:-------------:| :---: | :-----: |
+| base | Your preferred base currency | JPY | non case sensitive |
+| symbols | Currency codes to limit output currencies | [:JPY, :AUD, :USD] | non case sensitive |
+| amount | The amount to be converted | 123.45 | - |
+| places | Decimal places | 2 | - |
+| format | Output format | CSV | CSV, TSV or XML |
+| from | The currecny you would like to convert from | JPY | non case sensitive |
+| to | The currecny you would like to convert to | AUD | non case sensitive |
+| date | Historical exchange rate date | 2020-12-21 | format YYYY-MM-DD |
+| start_date | The start date of your preferred timeframe | 2020-12-21 | format YYYY-MM-DD |
+| end_date | The end date of your preferred timeframe | 2020-12-21 | format YYYY-MM-DD |
 
-    $ gem install exchangerate_host
+## Service Paramters 
+🟢 _optional_  🔴 _required_
+| Service | base | symbols | amount | places | format | from | to | date | start_date | end_date |
+|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Latest rates | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | - | - |
+| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - |
+| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | - | - |
+| Time-Series data | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | 🔴 | 🔴 |
+| Fluctuation data | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | 🔴 | 🔴 |
+| Supported symbols | - | - | - | - | 🟢 | - | - | - | - | - |
 
-## Usage
+## Setup default parameter options
 
-TODO: Write usage instructions here
 
-## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
 ## Contributing
 

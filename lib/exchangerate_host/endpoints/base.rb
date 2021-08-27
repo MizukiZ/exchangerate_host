@@ -1,6 +1,7 @@
 require 'httparty'
 require 'date'
 require 'exchangerate_host/endpoints/validation'
+
 module ExchangerateHost
   module Endpoints
     class Base
@@ -34,15 +35,13 @@ module ExchangerateHost
       end
 
       def self.query_options(options)
-        validate(options)
+        config_options = ExchangerateHost.configurations.to_options_hash.slice(*available_options)
+        merged_options = config_options.merge(options)
 
-        available_options.each_with_object({}) do |valid_option, query_options|
-          option_value = options[valid_option] || ExchangerateHost.configurations.public_send(valid_option)
+        validate(merged_options)
+        merged_options[:symbols] = to_upcase_csv(merged_options[:symbols]) if merged_options.key?(:symbols)
 
-          option_value = to_upcase_csv(option_value) if valid_option == :symbols
-
-          query_options[valid_option] = option_value
-        end.compact
+        merged_options
       end
     end
   end

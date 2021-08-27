@@ -6,10 +6,10 @@ module ExchangerateHost
       @places = 2
     end
 
-    def print
-      self.instance_variables.map do |attribute|
-        { attribute => self.instance_variable_get(attribute) }
-      end
+    def to_options_hash
+      self.instance_variables.map do |var|
+        [var[1..-1].to_sym, self.instance_variable_get(var)]
+      end.to_h
     end
   end
 end

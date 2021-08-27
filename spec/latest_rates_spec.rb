@@ -9,7 +9,7 @@ RSpec.describe ExchangerateHost::Endpoints::LatestRates do
     end
 
     it 'returns default values for not given options' do
-      expect(ExchangerateHost::Endpoints::LatestRates.query_options({})).to eq({ base: 'JPY', symbols: 'AUD,USD', places: 2 })
+      expect(ExchangerateHost::Endpoints::LatestRates.query_options({})).to eq({ base: 'JPY', symbols: 'AUD,USD' })
     end
 
     it 'overwrites default options with given options' do
@@ -19,7 +19,7 @@ RSpec.describe ExchangerateHost::Endpoints::LatestRates do
 
     it 'accepts non case-sensitive values' do
       non_case_sensitive_values = { base: 'JpY', symbols: ['Awg', 'usD'] }
-      expect(ExchangerateHost::Endpoints::LatestRates.query_options(non_case_sensitive_values)).to eq({ base: 'JpY', symbols: 'AWG,USD', places: 2 })
+      expect(ExchangerateHost::Endpoints::LatestRates.query_options(non_case_sensitive_values)).to eq({ base: 'JpY', symbols: 'AWG,USD' })
     end
 
     context 'when invalid option is passed' do

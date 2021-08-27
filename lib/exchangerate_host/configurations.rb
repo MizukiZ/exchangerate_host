@@ -3,7 +3,8 @@ module ExchangerateHost
     attr_accessor :base, :symbols, :places, :amount, :format, :from, :to, :date, :start_date, :end_date
 
     def initialize
-      @places = 2
+      # Default value can be set here.
+      # @places = 2
     end
 
     def to_options_hash

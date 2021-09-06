@@ -27,11 +27,15 @@ module ExchangerateHost
       end
 
       def self.request(options)
-        get(
+        query = query_options(options)
+        res = get(
           "/#{endpoint_path}",
-          { query: query_options(options) }
+          { query: query }
         )
         .body
+
+        res = JSON.parse(res) unless query[:format]
+        res
       end
 
       def self.query_options(options)

@@ -24,39 +24,27 @@ module ExchangerateHost
     end
 
     def latest_rates(options = {})
-      res = Endpoints::LatestRates.request(options)
-      response_parser(res, 'rates')
+      Endpoints::LatestRates.request(options)
     end
 
     def convert_currency(options = {})
-      res = Endpoints::ConvertCurrency.request(options)
-      response_parser(res, 'result')
+      Endpoints::ConvertCurrency.request(options)
     end
 
     def historical_rates(date, options = {})
-      res = Endpoints::HistoricalRates.request(date, options)
-      response_parser(res, 'rates')
+      Endpoints::HistoricalRates.request(date, options)
     end
 
     def time_series(options = {})
-      res = Endpoints::TimeSeries.request(options)
-      response_parser(res, 'rates')
+      Endpoints::TimeSeries.request(options)
     end
 
     def fluctuation(options = {})
-      res = Endpoints::Fluctuation.request(options)
-      response_parser(res, 'rates')
+      Endpoints::Fluctuation.request(options)
     end
 
     def supported_symbols(options = {})
-      res = Endpoints::SupportedSymbols.request(options)
-      response_parser(res, 'symbols')
+      Endpoints::SupportedSymbols.request(options)
     end
-
-    private
-      def response_parser(res, scope = nil)
-        parsed_data = JSON.parse(res)
-        parsed_data[scope] if scope
-      end
   end
 end

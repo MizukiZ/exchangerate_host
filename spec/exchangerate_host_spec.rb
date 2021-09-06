@@ -43,7 +43,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
       allow(ExchangerateHost::Endpoints::LatestRates).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.latest_rates).to eq({ 'data' => 'some data' })
+      expect(ExchangerateHost.latest_rates).to eq(res_body)
     end
   end
 
@@ -52,7 +52,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'result' => { 'data' => 'some data' } }.to_json
       allow(ExchangerateHost::Endpoints::ConvertCurrency).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.convert_currency).to eq({ 'data' => 'some data' })
+      expect(ExchangerateHost.convert_currency).to eq(res_body)
     end
   end
 
@@ -61,7 +61,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
       allow(ExchangerateHost::Endpoints::HistoricalRates).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.historical_rates('2021-01-01')).to eq({ 'data' => 'some data' })
+      expect(ExchangerateHost.historical_rates('2021-01-01')).to eq(res_body)
     end
   end
 
@@ -70,7 +70,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
       allow(ExchangerateHost::Endpoints::LatestRates).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.latest_rates).to eq({ 'data' => 'some data' })
+      expect(ExchangerateHost.latest_rates).to eq(res_body)
     end
   end
 
@@ -79,7 +79,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
       allow(ExchangerateHost::Endpoints::TimeSeries).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.time_series).to eq({ 'data' => 'some data' })
+      expect(ExchangerateHost.time_series).to eq(res_body)
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'rates' => { 'data' => 'some data' } }.to_json
       allow(ExchangerateHost::Endpoints::Fluctuation).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.fluctuation).to eq({ 'data' => 'some data' })
+      expect(ExchangerateHost.fluctuation).to eq(res_body)
     end
   end
 
@@ -97,7 +97,7 @@ RSpec.describe ExchangerateHost do
       res_body = { 'symbols' => { 'rates' => { 'data' => 'some data' } } }.to_json
       allow(ExchangerateHost::Endpoints::SupportedSymbols).to receive(:request).and_return(res_body)
 
-      expect(ExchangerateHost.supported_symbols).to eq({ 'rates' => { 'data' => 'some data' } })
+      expect(ExchangerateHost.supported_symbols).to eq(res_body)
     end
   end
 end

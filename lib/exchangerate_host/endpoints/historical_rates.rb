@@ -8,11 +8,16 @@ module ExchangerateHost
 
       def self.request(date, options)
         validate_date(date)
-        get(
+        query = query_options(options)
+
+        res = get(
           "/#{date}",
-          { query: query_options(options) }
+          { query: query }
         )
         .body
+
+        res = JSON.parse(res) unless query[:format]
+        res
       end
     end
   end

@@ -60,7 +60,6 @@ You can find details about services in [here](https://exchangerate.host/#/#our-s
   
 If `base` option is not given, `EUR` will be assigned  
 If `amount` option is not given, `1` will be assigned  
-If `format` option is not given, `json` will be assigned
   
 ## Usage
 You can make call supporetd survices with following APIs
@@ -81,25 +80,28 @@ _exmaples_
   ExchangerateHost.configurations.places = 2
 
   # How much is 1000 yen in AUD and USD with the latest currency rates
-  ExchangerateHost.latest_rates({ base: :JPY, amount: 1000, symbols: [:AUD, :USD] }) #=> {"AUD"=>12.59, "USD"=>9.1}
+  res = ExchangerateHost.latest_rates({ base: :JPY, amount: 1000, symbols: [:AUD, :USD] })
+  res['rates'] #=> {"AUD"=>12.59, "USD"=>9.1}
     
   # How much is 150 AUD in JPY on 2015 December 21st
-  ExchangerateHost.convert_currency({ from: :AUD, to: :JPY, date: '2015-12-21', amount: 150 }) #=> 13038.47
+  res = ExchangerateHost.convert_currency({ from: :AUD, to: :JPY, date: '2015-12-21', amount: 150 })
+  res['result'] #=> 13038.47
     
   # What were the all supported currency rates for 1 AUD on 2020 December 21st
-  ExchangerateHost.historical_rates('2020-12-21', { base: :USD }) #=> { "AED"=>3.69, "AFN"=>77.4, "ALL"=>101.52... }
+  res = ExchangerateHost.historical_rates('2020-12-21', { base: :USD })
+  res['rates'] #=> { "AED"=>3.69, "AFN"=>77.4, "ALL"=>101.52... }
     
   # What were the JPY and USD rates based on 1 AUD between 2021 January 1st ~ 2021 Febrary 1st
-  ExchangerateHost.time_series({ base: :AUD, symbols: [:JPY, :USD], start_date: '2021-01-01', end_date: '2021-02-01' })
-  #=> {"2021-01-01"=>{"JPY"=>79.56, "USD"=>0.77}, "2021-01-02"=>{"JPY"=>79.29, "USD"=>0.77}, "2021-01-03"=>{"JPY"=>79.42, "USD"=>0.77},... }
+  res = ExchangerateHost.time_series({ base: :AUD, symbols: [:JPY, :USD], start_date: '2021-01-01', end_date: '2021-02-01' })
+  res['rates'] #=> {"2021-01-01"=>{"JPY"=>79.56, "USD"=>0.77}, "2021-01-02"=>{"JPY"=>79.29, "USD"=>0.77}, "2021-01-03"=>{"JPY"=>79.42, "USD"=>0.77},... }
     
   # How much JPY and USD rates based on 1 AUD fluctuated between 2020 January 1st ~ 2020 October 1st
-  ExchangerateHost.fluctuation({ base: :AUD, symbols: [:JPY, :USD], start_date: '2020-01-01', end_date: '2020-10-01' })
-  #=> {"USD"=>{"start_rate"=>0.7, "end_rate"=>0.72, "change"=>-0.02, "change_pct"=>-0.03}, "JPY"=>{... }
+  res = ExchangerateHost.fluctuation({ base: :AUD, symbols: [:JPY, :USD], start_date: '2020-01-01', end_date: '2020-10-01' })
+  res['rates'] #=> {"USD"=>{"start_rate"=>0.7, "end_rate"=>0.72, "change"=>-0.02, "change_pct"=>-0.03}, "JPY"=>{... }
     
   # What are the suported currencies
-  ExchangerateHost.supported_symbols
-  #=> {"AED"=>{"description"=>"United Arab Emirates Dirham", "code"=>"AED"}, "AFN"=>{"description"=>"Afghan Afghani", "code"=>"AFN"}... }
+  res = ExchangerateHost.supported_symbols
+  res['symbols'] #=> {"AED"=>{"description"=>"United Arab Emirates Dirham", "code"=>"AED"}, "AFN"=>{"description"=>"Afghan Afghani", "code"=>"AFN"}... }
 ```
 
 ## Setup default parameter options

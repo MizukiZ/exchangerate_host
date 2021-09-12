@@ -65,12 +65,12 @@ If `amount` option is not given, `1` will be assigned
 You can make call supporetd survices with following APIs
 | Service | method | arguments |
 | ------------- |:-------------:| :-------------:|
-| Latest rates | ExchangerateHost.latest_rates(options) | options: {} |
-| Convert currency | ExchangerateHost.convert_currency(options) | options: {} |
-| Historical rates | ExchangerateHost.historical_rates(date, options) | date: YYYY-MM-DD , options: {} |
-| Time-Series data | ExchangerateHost.time_series(options) | options: {} |
-| Fluctuation data | ExchangerateHost.fluctuation(options) | options: {} |
-| Supported symbols |ExchangerateHost.supported_symbols(options) | options: {} |
+| Latest rates | ExchangerateHost.latest_rates(options) | options: Hash |
+| Convert currency | ExchangerateHost.convert_currency(options) | options: Hash |
+| Historical rates | ExchangerateHost.historical_rates(options) | options: Hash |
+| Time-Series data | ExchangerateHost.time_series(options) | options: Hash |
+| Fluctuation data | ExchangerateHost.fluctuation(options) | options: Hash |
+| Supported symbols |ExchangerateHost.supported_symbols(options) | options: Hash |
    
   
   
@@ -88,7 +88,7 @@ _exmaples_
   res['result'] #=> 13038.47
     
   # What were the all supported currency rates for 1 AUD on 2020 December 21st
-  res = ExchangerateHost.historical_rates('2020-12-21', { base: :USD })
+  res = ExchangerateHost.historical_rates({date: '2020-12-21', base: :USD })
   res['rates'] #=> { "AED"=>3.69, "AFN"=>77.4, "ALL"=>101.52... }
     
   # What were the JPY and USD rates based on 1 AUD between 2021 January 1st ~ 2021 Febrary 1st

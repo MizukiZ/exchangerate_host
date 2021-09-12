@@ -2,12 +2,14 @@ require 'exchangerate_host/endpoints/base'
 module ExchangerateHost
   module Endpoints
     class LatestRates < Base
-      def self.optional_options
-        [:base, :symbols, :places, :amount, :format]
-      end
+      class << self
+        def optional_options
+          [:base, :symbols, :places, :amount, :format]
+        end
 
-      def self.endpoint_path
-        'latest'
+        def endpoint_path
+          'latest'
+        end
       end
     end
   end

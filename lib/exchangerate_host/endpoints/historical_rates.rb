@@ -2,22 +2,24 @@ require 'exchangerate_host/endpoints/base'
 module ExchangerateHost
   module Endpoints
     class HistoricalRates < Base
-      def self.optional_options
-        [:base, :symbols, :places, :amount, :format]
-      end
+      class << self
+        def optional_options
+          [:base, :symbols, :places, :amount, :format]
+        end
 
-      def self.request(date, options)
-        validate_date(date)
-        query = query_options(options)
+        def request(date, options)
+          validate_date(date)
+          query = query_options(options)
 
-        res = get(
-          "/#{date}",
-          { query: query }
-        )
-        .body
+          res = get(
+            "/#{date}",
+            { query: query }
+          )
+          .body
 
-        res = JSON.parse(res) unless query[:format]
-        res
+          res = JSON.parse(res) unless query[:format]
+          res
+        end
       end
     end
   end

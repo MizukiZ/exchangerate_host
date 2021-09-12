@@ -28,14 +28,14 @@ module ExchangerateHost
         end
 
         def request(options)
-          query = query_options(options)
+          @query = query_options(options)
           res = get(
             "/#{endpoint_path}",
-            { query: query }
+            { query: @query }
           )
           .body
 
-          res = JSON.parse(res) unless query[:format]
+          res = JSON.parse(res) unless @query[:format]
           res
         end
 

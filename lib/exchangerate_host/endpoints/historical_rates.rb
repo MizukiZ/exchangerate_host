@@ -7,18 +7,12 @@ module ExchangerateHost
           [:base, :symbols, :places, :amount, :format]
         end
 
-        def request(date, options)
-          validate_date(date)
-          query = query_options(options)
+        def required_options
+          [:date]
+        end
 
-          res = get(
-            "/#{date}",
-            { query: query }
-          )
-          .body
-
-          res = JSON.parse(res) unless query[:format]
-          res
+        def endpoint_path
+          @query[:date]
         end
       end
     end

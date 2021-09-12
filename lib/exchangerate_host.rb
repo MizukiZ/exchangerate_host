@@ -31,8 +31,8 @@ module ExchangerateHost
       Endpoints::ConvertCurrency.request(options)
     end
 
-    def historical_rates(date, options = {})
-      Endpoints::HistoricalRates.request(date, options)
+    def historical_rates(options = {})
+      Endpoints::HistoricalRates.request(options)
     end
 
     def time_series(options = {})

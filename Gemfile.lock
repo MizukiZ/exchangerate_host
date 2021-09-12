@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    exchangerate_host (0.1.0)
+    exchangerate_host (0.0.1)
       httparty
 
 GEM

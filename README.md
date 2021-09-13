@@ -88,7 +88,7 @@ _exmaples_
   res['result'] #=> 13038.47
     
   # What were the all supported currency rates for 1 AUD on 2020 December 21st
-  res = ExchangerateHost.historical_rates({date: '2020-12-21', base: :USD })
+  res = ExchangerateHost.historical_rates({date: '2020-12-21', base: :AUD })
   res['rates'] #=> { "AED"=>3.69, "AFN"=>77.4, "ALL"=>101.52... }
     
   # What were the JPY and USD rates based on 1 AUD between 2021 January 1st ~ 2021 Febrary 1st

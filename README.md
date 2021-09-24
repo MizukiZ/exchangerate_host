@@ -51,7 +51,7 @@ You can find details about services in [here](https://exchangerate.host/#/#our-s
 | Service | base | symbols | amount | places | format | from | to | date | start_date | end_date |
 |:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
 | Latest rates | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | - | - |
-| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - |
+| Convert currency | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | 🔴 | 🔴 | - | - |
 | Historical rates | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | 🔴 | - | - |
 | Time-Series data | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | 🔴 | 🔴 |
 | Fluctuation data | 🟢 | 🟢 | 🟢 | 🟢 | 🟢 | - | - | - | 🔴 | 🔴 |

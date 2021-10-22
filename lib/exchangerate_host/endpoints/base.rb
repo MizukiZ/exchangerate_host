@@ -33,9 +33,8 @@ module ExchangerateHost
             "/#{endpoint_path}",
             { query: @query }
           )
-          .body
 
-          res = JSON.parse(res) unless @query[:format]
+          res = JSON.parse(res.body) unless @query&.[](:format)
           res
         end
 
@@ -46,7 +45,7 @@ module ExchangerateHost
           validate(merged_options)
           merged_options[:symbols] = to_upcase_csv(merged_options[:symbols]) if merged_options.key?(:symbols)
 
-          merged_options
+          merged_options.empty? ? nil : merged_options
         end
       end
     end
